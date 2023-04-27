@@ -311,6 +311,8 @@ Find book by title and author name - 200 OK
 URI: **DELETE** - `/v1/bookstore/books/{bookId}` <br>
 No Request Body
 #### Headers Sample
+Need ADMIN role
+
 | Header Key    | Header Value               |
 |---------------|----------------------------|
 | Content-Type  | application/json           |
@@ -322,13 +324,13 @@ No Response Body
 
 ### Security
 API security was implemented using Basic Authentication. <br>
-There are 2 hardcoded users created
+There are 2 hardcoded users created as follows.
 
-| Username | Password |
-|----------|----------|
-| user     | password |
-| admin    | password |
-
+| Username | Password | Role  |
+|----------|----------|-------|
+| user     | password | USER  |
+| admin    | password | ADMIN |
+All API endpoints except `DELETE` require USER or ADMIN role, `DELETE` requires ADMIN. <br>
 Accessing API without providing Auth in the header will return
 ```json
 {
