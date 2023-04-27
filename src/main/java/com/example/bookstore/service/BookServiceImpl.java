@@ -10,6 +10,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
@@ -130,7 +131,20 @@ public class BookServiceImpl implements BookService {
             }
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, constraintViolationException.getMessage(),
                     constraintViolationException);
+        } catch (TransactionSystemException transactionSystemException) {
+            if (transactionSystemException.getCause() != null
+                    && transactionSystemException.getCause().getCause() != null) {
+                if (transactionSystemException.getCause().getCause() instanceof ConstraintViolationException) {
+                    ConstraintViolationException constraintViolationException = (ConstraintViolationException) transactionSystemException
+                            .getCause().getCause();
+                    List<String> reasons = constraintViolationException.getConstraintViolations().stream()
+                            .map(BookServiceImpl::mapConstraintViolationMessage).toList();
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, reasons.toString(),
+                            constraintViolationException);
+                }
+            }
         }
+        return null;
     }
 
     private List<Author> fetchAndValidateAuthorsByAuthorIds(Book book) {
