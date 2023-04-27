@@ -350,3 +350,6 @@ Request is not authorized for given user provided in Auth header will return
     "path": "/v1/bookstore/books/8"
 }
 ```
+
+### Database
+Book info is stored in SQLite, filename `bookstore.db`.
