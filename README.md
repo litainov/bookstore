@@ -281,8 +281,8 @@ Find books by multiple author names - 200 OK
 ```
 
 ### Get book by author name(s) and title
-URI: GET - /v1/bookstore/books?title={title}authorName={authorName} or <br>
-URI: GET - /v1/bookstore/books?authorName={authorName1}&authorName={authorName2} <br>
+URI: GET - /v1/bookstore/books?title={title}&authorName={authorName} or <br>
+URI: GET - /v1/bookstore/books?title={title}&authorName={authorName1}&authorName={authorName2} <br>
 No Request Body
 
 #### Response Samples
